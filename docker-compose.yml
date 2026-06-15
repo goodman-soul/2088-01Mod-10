@@ -1,0 +1,7 @@
+services:
+  pingpong:
+    build: .
+    image: pingpong3:latest
+    container_name: pingpong3
+    stdin_open: true
+    tty: true

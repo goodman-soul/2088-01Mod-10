@@ -261,6 +261,9 @@ static struct round_outcome run_round(int round_num, int max_passes, int timeout
             break;
         }
         if (rc == 0) {
+            if (timeout_flag) {
+                outcome.result = RESULT_TIMEOUT;
+            }
             running = 0;
             break;
         }
@@ -305,6 +308,10 @@ static struct round_outcome run_round(int round_num, int max_passes, int timeout
             kill(child1, SIGUSR1);
             expect_child = 1;
         }
+    }
+
+    if (outcome.result == RESULT_INTERRUPTED && timeout_flag) {
+        outcome.result = RESULT_TIMEOUT;
     }
 
     struct itimerval cancel = {{0, 0}, {0, 0}};
